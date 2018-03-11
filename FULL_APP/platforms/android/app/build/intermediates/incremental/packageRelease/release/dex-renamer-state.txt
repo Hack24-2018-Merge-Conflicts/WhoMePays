@@ -1,0 +1,4 @@
+#Sat Mar 10 21:40:59 GMT 2018
+base.0=C\:\\cordova\\H24\\platforms\\android\\app\\build\\intermediates\\transforms\\dex\\release\\0
+renamed.0=classes.dex
+file.0=C\:\\cordova\\H24\\platforms\\android\\app\\build\\intermediates\\transforms\\dex\\release\\0\\classes.dex

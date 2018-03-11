@@ -1,0 +1,193 @@
+﻿<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    <title>WhoMePays</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+<body>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+	
+				<!-- Header -->
+					<header id="header">
+					
+					<br />
+					
+					</header>
+        <!-- Main -->
+        <section id="main">
+
+            <div id="addOutgoing">
+                <h1></h1>
+                <table>
+                    <tr>
+                        <td>Current Balance:</td>
+                        <td>
+                            <input type="text" data-bind="value: currentBalance" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <h1>Incomings</h1>
+            <div id="addIncoming">
+                <h2>Add Incoming</h2>
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <input type="text" id="incomingName" />
+                        </td>
+                        <td>Amount:</td>
+                        <td>
+                            <input type="text" id="incomingAmount" />
+                        </td>
+                        <td>
+                            <button id="addButton" type="button" data-bind="click: function() { addIncoming(); }">Add</button>
+                        </td>
+                    </tr>
+                </table>
+                <div id="divider"> </div>
+            </div>
+
+            <div id="incomings" class="container">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h1>Forecast</h1>
+                        <table id="incomingsForecastTable">
+                            <tbody data-bind="foreach: incomingForecasts">
+                                <tr>
+                                    <td data-bind="html:formattedName"></td>
+                                    <td data-bind="text: formattedAmount"></td>
+                                    <td>
+                                        <button type="button" data-bind="css: buttonCss, click: function() { window.vm.markIncomingAsActual(id); }, text: buttonText">Mark as paid</button>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-trash mousePointer" data-bind="click: function() { window.vm.removeOutgoing(id); }"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h1>Actual</h1>
+                        <table id="incomingsActualTable">
+                            <tbody data-bind="foreach: incomingActual">
+                                <tr>
+                                    <td data-bind="html:formattedName"></td>
+                                    <td data-bind="text: formattedAmount"></td>
+                                    <td>
+                                        <button type="button" data-bind="css: buttonCss, click: function() { window.vm.markIncomingAsActual(id); }, text: buttonText">Mark as paid</button>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-undo mousePointer" data-bind="click: function() { window.vm.undoIncoming(id); }"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <h1>Outgoings</h1>
+            <div id="addOutgoing">
+                <h2>Add Outgoing</h2>
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <input type="text" id="outgoingName" />
+                        </td>
+                        <td>Amount:</td>
+                        <td>
+                            <input type="text" id="outgoingAmount" />
+                        </td>
+                        <td>
+                            <button id="addButton" type="button" data-bind="click: function() { addOutgoing(); }">Add</button>
+                        </td>
+                    </tr>
+                </table>
+                <div id="divider"> </div>
+            </div>
+            <div id="outgoings" class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>Forecast</h1>
+                        <table id="outGoingsTable">
+                            <tbody data-bind="foreach: outgoingForecasts">
+                                <tr>
+                                    <td data-bind="html:formattedName"></td>
+                                    <td data-bind="text: formattedAmount"></td>
+                                    <td>
+                                        <button type="button" data-bind="css: buttonCss, click: function() { window.vm.markOutgoingAsActual(id); }, text: buttonText">Mark as paid</button>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-trash mousePointer" data-bind="click: function() { window.vm.removeOutgoing(id); }"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h1>Actual</h1>
+                        <table id="settledTable">
+                            <tbody data-bind="foreach: outgoingActual">
+                                <tr>
+                                    <td data-bind="html:formattedName"></td>
+                                    <td data-bind="text: formattedAmount"></td>
+                                    <td>
+                                        <button data-bind="css: buttonCss, text: buttonText"></button>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-undo mousePointer" data-bind="click: function() { window.vm.undoOutgoing(id); }"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div id="totals">
+                <table>
+                    <tr class="large">
+                        <td>FORECAST BALANCE</td>
+                        <td data-bind="text:formattedForecastValue"></td>
+                        <td>ACTUAL BALANCE</td>
+                        <td data-bind="text: formattedActualBalance"></td>
+
+                    </tr>
+                </table>
+            </div>
+            <div id="divider" />
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/knockout-3.4.2.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/app.js"></script>
+
+</body>
+
+</html>
