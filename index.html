@@ -2,9 +2,10 @@
 
 <html>
 <head>
-    <title>PayMate</title>
+    <title>WhoMePays</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
@@ -12,116 +13,135 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
-				<!-- Header -->
-					<!--<header id="header">
-					
-						<h1>test</h1>
-					
-					</header>-->
-
 				<!-- Main -->
                     <section id="main">
 
+                    <div id="addOutgoing">
+                        <h1></h1>
+                            <table>
+                                <tr>
+                                    <td>Current Balance:</td>
+                                    <td><input type="text" data-bind="value: currentBalance" /></td>
+                                </tr>
+                            </table>
+                        </div>
 
-                        <br /><br />
+                        <h1>Incomings</h1>
+                        <div id="addIncoming">
+                                <h2>Add Incoming</h2>
+                                <table>
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td><input type="text" id="incomingName" /></td>
+                                        <td>Amount:</td>
+                                        <td><input type="text" id="incomingAmount" /></td>
+                                        <td><button id="addButton" type="button" data-bind="click: function() { addIncoming(); }">Add</button></td>
+                                    </tr>
+                                </table>
+                                <div id="divider"> </div>
+                            </div>
 
-                        <h1>Add Outgoing</h1>
+                        <div id="incomings" class="container">
+                            <div class="row">
+                                    
+                                <div class="col-md-6">
+                                    <h1>Forecast</h1>
+                                    <table id="incomingsForecastTable">
+                                            <tbody data-bind="foreach: incomingForecasts">
+                                            <tr>
+                                                <td data-bind="html:formattedName"></td>
+                                                <td data-bind="text: formattedAmount"></td>
+                                                <td>
+                                                    <button type="button" data-bind="css: buttonCss, click: function() { window.vm.markIncomingAsActual(id); }, text: buttonText">Mark as paid</button>
+                                                </td>
+                                                <td>
+                                                    <i class="fa fa-trash mousePointer" data-bind="click: function() { window.vm.removeOutgoing(id); }"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                        <h1>Actual</h1>
+                                        <table id="incomingsActualTable">
+                                                <tbody data-bind="foreach: incomingActual">
+                                                <tr>
+                                                    <td data-bind="html:formattedName"></td>
+                                                    <td data-bind="text: formattedAmount"></td>
+                                                    <td>
+                                                        <button type="button" data-bind="css: buttonCss, click: function() { window.vm.markIncomingAsActual(id); }, text: buttonText">Mark as paid</button>
+                                                    </td>
+                                                    <td>
+                                                        <i class="fa fa-trash mousePointer" data-bind="click: function() { window.vm.removeOutgoing(id); }"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                        </div>
+
+                        <h1>Outgoings</h1>
                         <div id="addOutgoing">
+                            <h2>Add Outgoing</h2>
                             <table>
                                 <tr>
                                     <td>Name:</td>
-                                    <td><input type="text" id="name" /></td>
+                                    <td><input type="text" id="outgoingName" /></td>
                                     <td>Amount:</td>
-                                    <td><input type="text" id="amount" /></td>
-                                    <td><button id="addButton" type="button">Add</button></td>
+                                    <td><input type="text" id="outgoingAmount" /></td>
+                                    <td><button id="addButton" type="button" data-bind="click: function() { addOutgoing(); }">Add</button></td>
                                 </tr>
                             </table>
                             <div id="divider"> </div>
                         </div>
-
-                        <div id="outgoings">
-                            <h1>Outgoings</h1>
-
-
-                            <table id="outGoingsTable">
-                                <tr>
-                                    <td><Strong>Rent</Strong></td>
-                                    <td class="a"> </td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-
-                                    <td><Strong>Gas</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td><Strong>Electric</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-
-                                    <td><Strong>Shopping</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td><Strong>Car</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-
-                                    <td><Strong>Food</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td><Strong>Clothes</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-
-                                    <td><Strong>Gym</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td><Strong>Car</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-
-                                    <td><Strong>Food</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td><Strong>Clothes</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-
-                                    <td><Strong>Gym</Strong></td>
-                                    <td> £500</td>
-                                    <td><button type="button">Mark as paid</button></td>
-                                    <td><i class="icon style2 fas fa-times"></i></td>
-                                </tr>
-                            </table>
+                        <div id="outgoings" class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h1>Forecast</h1>
+                                    <table id="outGoingsTable">
+                                            <tbody data-bind="foreach: outgoingForecasts">
+                                            <tr>
+                                                <td data-bind="html:formattedName"></td>
+                                                <td data-bind="text: formattedAmount"></td>
+                                                <td>
+                                                    <button type="button" data-bind="css: buttonCss, click: function() { window.vm.markOutgoingAsActual(id); }, text: buttonText">Mark as paid</button>
+                                                </td>
+                                                <td>
+                                                    <i class="fa fa-trash mousePointer" data-bind="click: function() { window.vm.removeOutgoing(id); }"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h1>Actual</h1>
+                                    <table id="settledTable">
+                                            <tbody data-bind="foreach: outgoingActual">
+                                            <tr>
+                                                <td data-bind="html:formattedName"></td>
+                                                <td data-bind="text: formattedAmount"></td>
+                                                <td>
+                                                    <button data-bind="css: buttonCss, text: buttonText">Mark as paid</button>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
 
                             <div id="divider" />
                         </div>
                         <div id="totals">
                             <table>
                                 <tr class="large">
-                                    <td>CREDIT</td>
-                                    <td>£900</td>
-                                    <td>DEBT</td>
-                                    <td class="">£1000</td>
+                                    <td>FORECAST BALANCE</td>
+                                    <td data-bind="text:formattedForecastValue"></td>
+                                    <td>ACTUAL BALANCE</td>
+                                    <td data-bind="text: formattedActualBalance"></td>
+                                    
                                 </tr>
                             </table>
                         </div>
@@ -129,16 +149,18 @@
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p>&copy; WhoMePays.</p>
+						<p>&copy; WhoMePays</p>
 					</footer>
 
 			</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.poptrox.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/main.js"></script>
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/bootstrap.js"></script>
+            <script src="assets/js/skel.min.js"></script>
+            <script src="assets/js/knockout-3.4.2.js"></script>
+            <script src="assets/js/main.js"></script>
+            <script src="assets/js/app.js"></script>
 
 	</body>
 </html>
