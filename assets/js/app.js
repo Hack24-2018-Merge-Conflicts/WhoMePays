@@ -38,19 +38,15 @@ var app = function(currentBalance) {
     self.populateOutgoings = function() {
         var list = [];
 
-        list.push(new lineItem(1, 'Rent', 500));
-        list.push(new lineItem(2, 'Electric', 500));
-        list.push(new lineItem(3, 'Car', 500));
-        list.push(new lineItem(4, 'Clothes',  500));
-        list.push(new lineItem(5, 'Car', 500));
-        list.push(new lineItem(6, 'Clothes',  500));
-
-        list.push(new lineItem(7, 'Gas', 500));
-        list.push(new lineItem(8, 'Shopping', 500));
-        list.push(new lineItem(9, 'Food', 500));
-        list.push(new lineItem(10, 'Gym',  500));
-        list.push(new lineItem(11, 'Food', 500));
-        list.push(new lineItem(12, 'Gym',  500));
+        list.push(new lineItem(1, 'Rent', 750));
+        list.push(new lineItem(8, 'Spending', 500));
+        list.push(new lineItem(11, 'Food', 400));
+        list.push(new lineItem(5, 'Car', 300));
+        list.push(new lineItem(7, 'Fuel', 150));
+        list.push(new lineItem(2, 'Electricity', 120));
+        list.push(new lineItem(6, 'Clothes',  80));
+        list.push(new lineItem(12, 'Gym',  24));
+        list.push(new lineItem(13, 'Internet', 20))
 
         return list;
     }
@@ -58,8 +54,8 @@ var app = function(currentBalance) {
     self.populateIncomings = function() {
         var list = [];
 
-        list.push(new lineItem(1, 'Wages', 1200));
-        list.push(new lineItem(2, 'Child Benefit', 500));
+        list.push(new lineItem(1, 'Wages 1', 1500));
+        list.push(new lineItem(2, 'Wages 2', 900));
 
         return list;
     }
@@ -111,6 +107,28 @@ var app = function(currentBalance) {
         throw console.error("unable to find outgoing with id of: "+ targetId);
     }
 
+    self.undoIncoming = function(targetId) {
+        for(var ogId = 0; ogId < self.incomings().length; ogId++) {
+            if (self.incomings()[ogId].id == targetId){
+                self.incomings()[ogId].actual(false);
+                break;
+            }
+        }
+
+        throw console.error("unable to find outgoing with id of: "+ targetId);
+    }
+
+    self.undoOutgoing= function(targetId) {
+        for(var ogId = 0; ogId < self.outgoings().length; ogId++) {
+            if (self.outgoings()[ogId].id == targetId){
+                self.outgoings()[ogId].actual(false);
+                break;
+            }
+        }
+
+        throw console.error("unable to find outgoing with id of: "+ targetId);
+    }
+
     self.addIncoming = function() {
         var name = $('#incomingName').val();
         var amount = Number($('#incomingAmount').val());
@@ -145,6 +163,16 @@ var app = function(currentBalance) {
     self.incomings = ko.observableArray(self.populateIncomings());
 
     // members
+    self.getCurrentBalanceFromLocalStorage = function() {
+        var currentBalance = localStorage.getItem("currentBalance");
+
+        if (currentBalance) {
+            self.currentBalance(Number(JSON.parse(currentBalance)));
+        }
+    }
+    self.setCurrentActualBalanceInLocalStorage = function(valueToStore) {
+        localStorage.setItem("currentBalance", JSON.stringify(valueToStore));
+    }
     self.outgoingForecasts = ko.computed(function(){
         var list = [];
 
@@ -231,14 +259,16 @@ var app = function(currentBalance) {
 
     self.formattedActualBalance = ko.pureComputed(function() {
         var value = (Number(self.currentBalance()) + Number(self.incomingActualValue())) - Number(self.outgoingActualValue());
+        self.setCurrentActualBalanceInLocalStorage(value);
         return `${(value < 0) ? "-" : ""}£${Math.abs(value)}`;
     });
 
     self.formattedForecastValue = ko.pureComputed(function() {
-        debugger;
         var value = (Number(self.currentBalance()) + Number(self.incomingForecastValue())) - Number(self.outgoingForecastValue());
         return `${(value < 0) ? "-" : ""}£${Math.abs(value)}`;
     });
+
+    //self.getCurrentBalanceFromLocalStorage();
 
     return self;
 }

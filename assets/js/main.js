@@ -11,7 +11,7 @@ $(function() {
 			$body = $('body'),
             $wrapper = $('#wrapper');
 
-		window.vm = new app(900);
+		window.vm = new app(0);
 		ko.applyBindings(window.vm);
 
 		// Breakpoints.
